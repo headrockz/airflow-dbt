@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: sources
+    database: finance
+    schema: public
+    tables:
+      - name: apple
+      - name: google
