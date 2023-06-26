@@ -8,7 +8,6 @@ with base as (
     (open - close)::NUMERIC(30,2) as diff_open_close,
     (high - low)::NUMERIC(30,2) as diff_high_low
   from {{source('sources', 'apple')}}
-
 )
  
 select * from  base

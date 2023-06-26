@@ -2,7 +2,6 @@ FROM ghcr.io/dbt-labs/dbt-postgres:1.2.latest
 
 USER root
 WORKDIR /dbt
-COPY  ./ ./
 
 RUN pip install Flask
 ENV FLASK_APP=app.py

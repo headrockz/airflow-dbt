@@ -1,9 +1,8 @@
-dbt:
+test_dbt:
   outputs:
-
     dev:
       type: postgres #Tipo do conector
-      threads: 1
+      threads: 2
       host: postgres #Host do postgres
       port: 5432
       user: postgres
