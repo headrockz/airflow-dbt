@@ -1,0 +1,6 @@
+dbt_packages/
+logs/
+target/
+
+.venv
+.DS_Store

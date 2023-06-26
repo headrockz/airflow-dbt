@@ -1,0 +1,14 @@
+dbt:
+  outputs:
+
+    dev:
+      type: postgres #Tipo do conector
+      threads: 1
+      host: postgres #Host do postgres
+      port: 5432
+      user: postgres
+      pass: password
+      dbname: finance
+      schema: dbt_asafe #Schema onde o resultados dos modelos serão salvos
+
+  target: dev
