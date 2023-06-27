@@ -16,3 +16,6 @@ CREATE TABLE google (
     adj_close numeric(30, 6),
     volume bigint
 );
+
+COPY apple from '/files/aapl.csv' DELIMITER ',' CSV HEADER;
+COPY google from '/files/goog.csv' DELIMITER ',' CSV HEADER; 

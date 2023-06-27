@@ -21,6 +21,7 @@ services:
     volumes:
       - ./files:/files
       - ./copy_postgres.sh:/copy_postgres.sh
+      - ./files/tables.sql:/docker-entrypoint-initdb.d/tables.sql
     ports:
       - "5432:5432"
     
