@@ -27,6 +27,7 @@ O [DBT](https://www.getdbt.com/) é uma ferramenta de transformação de dados o
 │   └── Dockerfile
 │   └── profiles.yml
 │   └── script.sh
+├── images
 ├── .gitignore
 ├── .python-version
 └── README.md
@@ -42,3 +43,8 @@ Para executar o esse projeto, entre na pasta ***dbt_api*** depois rode o comando
 
 Para executar o DBT no mesmo ambiente que o Airflow, estou utilizando o provider da Astronomer chamado [Cosmos](https://docs.astronomer.io/learn/airflow-dbt). Para executar esse projeto, entre na pasta ***dbt_airflow***, digite `docker-compose up -d`, depois entre na interface web do Airflow [http://localhost:8080](http://localhost:8080), o usuário e senha são **airflowdbt**
 
+É necessário configurar a connection do Postgres dentro do Airflow
+
+![image](/images/connection_postgres.png)
+
+Criei quatro dags, uma que extrai os dados para ações da Apple e Google, executa um modelo para cada ação e depois um modelo que usa esses outros dois modelos. As outras três dags fazem a mesma coisa, só que separando cada uma das etapas.
