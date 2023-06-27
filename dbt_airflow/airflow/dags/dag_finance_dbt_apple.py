@@ -67,7 +67,7 @@ with DAG(
         dbt_project_name="airflowdbt",
         conn_id="postgres",
         profile_args={
-            "schema": "public",
+            "schema": "dbt_sep",
         },
         select={'paths': ['models/apple']}
     )

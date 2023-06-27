@@ -10,7 +10,7 @@ from cosmos.providers.dbt.task_group import DbtTaskGroup
 
 
 with DAG(
-    "dag_yfinance_dbt_google",
+    "dag_yfinance_dbt",
     start_date=days_ago(1),
     schedule_interval=None,
     catchup=False,
@@ -50,6 +50,7 @@ with DAG(
     
     def extract(*context):
         TICKERS = [
+            "AAPL",
             "GOOG",
         ]
         for t in TICKERS:
@@ -67,9 +68,8 @@ with DAG(
         dbt_project_name="airflowdbt",
         conn_id="postgres",
         profile_args={
-            "schema": "dbt_sep",
+            "schema": "dbt_all",
         },
-        select={'paths': ['models/google']}
     )
 
     end_pipeline = EmptyOperator(task_id="post_dbt")

@@ -1,6 +1,8 @@
 dbt_packages/
 logs/
 target/
+__pycache__
 
 .venv
 .DS_Store
+*.pyc*
