@@ -1,43 +1,31 @@
 # Começando com o DBT (Data Build Tool)
 
-O [DBT](https://www.getdbt.com/) é uma ferramenta de transformação de dados open-source. Caso queria conhecer um
+O [DBT](https://www.getdbt.com/) é uma ferramenta de transformação de dados open-source.
 
 ## Estrutura do projeto
 
 ```bash
-├── dbt_airflow # executando o dbt junto com o airflow
-│   └── airflow
-│   └── dbt
-│   └── postgres
-│   └── .env
-│   └── docker-compose.yaml
-│   └── poetry.lock
-│   └── pyproject.toml
-├── dbt_api     # api simples para rodar modelos no dbt
-│   └── analyses
-│   └── files
-│   └── macros
-│   └── models
-│   └── seeds
-│   └── snapshots
-│   └── tests
-│   └── app.py
-│   └── dbt_project.yaml
-│   └── docker-compose.yaml
-│   └── Dockerfile
+├── cosmos # executando o dbt junto com o airflow
+│   ├── models
+│   │     └── my models
+│   ├── tests
+│   │     └── my tests
+│   ├── postgres
+│   ├── dbt_project.yaml
 │   └── profiles.yml
-│   └── script.sh
+├── dags
+│   └── my dags
 ├── images
 ├── .gitignore
-├── .python-version
-└── README.md
+├── docker-compose.yaml
+├── Dockerfile
+├── poetry.lock
+├── pyproject.toml
+├── README.md
+└── requirements.txt
 ```
 
-## Executando os Projetos
-
-### Executando um modelo no DBT via API
-
-Para executar o esse projeto, entre na pasta ***dbt_api*** depois rode o comando `docker-compose up -d`. Ele irá subir dois containers um do Postgres e outro da imagem gerada pelo Dockerfile, essa imagem irá executar a API feita com o Flask, para acompanhar seus logs execute `docker logs dbt --follow`, e para executar um modelo, execute o comando `curl -X POST "http://<endereço>:8080/model?model=<nome modelo>"`.
+## Executando o Projeto
 
 ### Orquestrando o DBT com o Airflow
 

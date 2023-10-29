@@ -1,0 +1,82 @@
+version: '3.9'
+
+x-common:
+  &common
+  build:
+    context: .
+    dockerfile: ./Dockerfile # Dockerfile we created for Airflow in order to install our requirements.txt
+  env_file:
+    - .env # all the important env variables are here
+  volumes:
+    - ./dags:/opt/airflow/dags
+    - ./logs:/opt/airflow/logs
+    - ./plugins:/opt/airflow/plugins
+    # - ./airflow/airflow.cfg:/opt/airflow/airflow.cfg
+    - ./cosmos:/opt/airflow/dbt
+    - ${PATH_BQ}:/opt/airflow/dbt-key.json
+    # All the necessary volumes are setup for airflow, based on our projects/folders
+  depends_on:
+    &airflow-common-depends-on
+    postgres:
+      condition: service_healthy
+
+services:
+  postgres:
+    image: postgres
+    hostname: postgres
+    container_name: postgres
+    env_file:
+      - .env
+    ports:
+      - '5431:5432'
+    networks:
+      - airflowdbt
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airflowdbt"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  scheduler:
+    <<: *common
+    container_name: airflow-scheduler
+    command: scheduler
+    restart: on-failure
+    ports:
+      - "8793:8793"
+    networks:
+      - airflowdbt
+    depends_on:
+      <<: *airflow-common-depends-on
+      airflow-init:
+        condition: service_completed_successfully
+
+  webserver:
+    <<: *common
+    container_name: airflow-webserver
+    restart: always
+    command: webserver
+    ports:
+      - "8080:8080"
+    # healthcheck:
+    #   test: ["CMD", "curl", "--fail", "http://127.0.0.1:8080/health"]
+    #   interval: 30s
+    #   timeout: 30s
+    #   retries: 5
+    networks:
+      - airflowdbt
+    depends_on:
+      <<: *airflow-common-depends-on
+      airflow-init:
+        condition: service_completed_successfully
+
+  airflow-init:
+    <<: *common
+    container_name: airflow-init
+    entrypoint: /bin/bash
+    networks:
+      - airflowdbt
+
+networks:
+  airflowdbt: # Create a Network to run our setup on. 
+    driver: bridge
