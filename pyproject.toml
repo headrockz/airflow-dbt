@@ -12,9 +12,10 @@ apache-airflow = "^2.6.2"
 apache-airflow-providers-postgres = "^5.5.0"
 dbt-postgres = "^1.5.1"
 pandas = "^2.0.2"
-astronomer-cosmos = "^0.7.3"
+astronomer-cosmos = "1.0.4"
 yfinance = "^0.2.22"
 pandas-datareader = "^0.10.0"
+dbt-bigquery = "^1.6.7"
 
 
 [build-system]
