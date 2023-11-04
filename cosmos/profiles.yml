@@ -7,17 +7,8 @@ cosmos:
       port: 5432
       user: "{{ env_var('POSTGRES_USER') }}"
       pass: "{{ env_var('POSTGRES_PASSWORD') }}"
-      dbname: finance
+      dbname: pokedex
       schema: dbt_asafe #Schema onde o resultados dos modelos serão salvos
-    prd:
-      type: postgres #Tipo do conector
-      threads: 2
-      host: postgres #Host do postgres
-      port: 5432
-      user: "{{ env_var('POSTGRES_USER') }}"
-      pass: "{{ env_var('POSTGRES_PASSWORD') }}"
-      dbname: finance
-      schema: dbt
       
     bq:
       type: bigquery

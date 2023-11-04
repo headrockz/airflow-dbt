@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: pokedex
+    database: pokedex
+    schema: public
+    tables:
+      - name: pokemons
+      - name: moves
+      - name: moves_pokemons
