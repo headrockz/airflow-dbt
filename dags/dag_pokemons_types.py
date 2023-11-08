@@ -7,7 +7,6 @@ from pendulum import datetime
 import os
 
 
-CONNECTION_ID = "postgres"
 # The path to the dbt project
 DBT_PROJECT_PATH = f"{os.environ['AIRFLOW_HOME']}/dbt"
 # The path where Cosmos will find the dbt executable
@@ -18,9 +17,9 @@ DBT_EXECUTABLE_PATH = f"/home/airflow/.local/bin/dbt"
 profile_config = ProfileConfig(
     profile_name="default",
     target_name="dev",
-    profile_mapping=GoogleCloudServiceAccountFileProfileMapping(
-        conn_id="bigquery",
-        profile_args={"dataset": "teste"},
+    profile_mapping=PostgresUserPasswordProfileMapping(
+        conn_id="postgres",
+        profile_args={"schema": "dbt"},
     ),
 )
 
