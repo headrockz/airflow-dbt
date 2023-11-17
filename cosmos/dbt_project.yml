@@ -11,6 +11,7 @@ profile: 'cosmos'
 
 vars:
     my_name: "No entry"
+    start_date: "1900-01-01"
 
 # These configurations specify where dbt should look for different types of files.
 # The `model-paths` config, for example, states that models in this project can be
