@@ -2,7 +2,7 @@ from airflow.decorators import dag
 from cosmos import DbtTaskGroup, ProjectConfig, ProfileConfig, ExecutionConfig, RenderConfig, LoadMode
 # adjust for other database types
 from cosmos.profiles import PostgresUserPasswordProfileMapping
-from pendulum import datetime
+from pendulum import datetime, duration
 import os
 
 
@@ -26,15 +26,24 @@ execution_config = ExecutionConfig(
     dbt_executable_path=DBT_EXECUTABLE_PATH,
 )
 
+default_args = {
+    "owner": "Asafe",
+    "depens_on_past": False,
+    "retries": 2,
+    "retry_delay": duration(minutes=5)
+}
+
 
 @dag(
     start_date=datetime(2023, 8, 1),
     schedule=None,
     catchup=False,
+    default_args=default_args,
+    tags=['moves', 'types']
 )
 def dag_moves_types():
     transform_data = DbtTaskGroup(
-        group_id="pokemons_type",
+        group_id="moves_type",
         project_config=ProjectConfig(DBT_PROJECT_PATH),
         profile_config=profile_config,
         execution_config=execution_config,
@@ -43,7 +52,6 @@ def dag_moves_types():
             "install_deps": True,
         },
         render_config=RenderConfig(select=["path:models/pokedex/moves/types"]),
-        default_args={"retries": 2},
     )
 
     transform_data
