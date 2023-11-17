@@ -3,7 +3,7 @@ from cosmos import DbtTaskGroup, ProjectConfig, ProfileConfig, ExecutionConfig, 
 # adjust for other database types
 from cosmos.profiles import PostgresUserPasswordProfileMapping
 from cosmos.profiles.bigquery import GoogleCloudServiceAccountFileProfileMapping
-from pendulum import datetime
+from pendulum import datetime, duration
 import os
 
 
@@ -27,11 +27,20 @@ execution_config = ExecutionConfig(
     dbt_executable_path=DBT_EXECUTABLE_PATH,
 )
 
+default_args = {
+    "owner": "Asafe",
+    "depens_on_past": False,
+    "retries": 2,
+    "retry_delay": duration(minutes=5)
+}
+
 
 @dag(
     start_date=datetime(2023, 8, 1),
     schedule=None,
     catchup=False,
+    default_args=default_args,
+    tags=['pokemons', 'types']
 )
 def dag_pokemons_types():
     transform_data = DbtTaskGroup(
@@ -43,7 +52,7 @@ def dag_pokemons_types():
             "vars": '{"start_date": {{ data_interval_start }} }',
             "install_deps": True,
         },
-        render_config=RenderConfig(select=["path:models/pokedex/types"]),
+        render_config=RenderConfig(select=["path:models/pokedex/pokemons/types"]),
         default_args={"retries": 2},
     )
 

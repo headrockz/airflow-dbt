@@ -1,0 +1,11 @@
+version: 2
+
+models:
+  - name: tb_pokemon_types
+    columns:
+      - name: type
+        tests:
+          - accepted_values:
+              values: ['Bug','Dragon','Electric','Fighting','Fire','Ghost','Grass','Ground','Ice','Normal','Poison','Psychic','Rock','Water']
+          - not_null
+      - name: qtd
