@@ -34,5 +34,3 @@ Para executar o DBT no mesmo ambiente que o Airflow, estou utilizando o provider
 É necessário configurar a connection do Postgres dentro do Airflow
 
 ![image](/images/connection_postgres.png)
-
-Criei quatro dags, uma que extrai os dados para ações da Apple e Google, executa um modelo para cada ação e depois um modelo que usa esses outros dois modelos. As outras três dags fazem a mesma coisa, só que separando cada uma das etapas.
