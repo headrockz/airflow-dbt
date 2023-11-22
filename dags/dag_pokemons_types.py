@@ -1,4 +1,5 @@
 from airflow.decorators import dag
+from airflow.operators.empty import EmptyOperator
 from cosmos import DbtTaskGroup, ProjectConfig, ProfileConfig, ExecutionConfig, RenderConfig, LoadMode
 # adjust for other database types
 from cosmos.profiles import PostgresUserPasswordProfileMapping
@@ -43,6 +44,9 @@ default_args = {
     tags=['pokemons', 'types']
 )
 def dag_pokemons_types():
+    start_dag = EmptyOperator(task_id='start_dag')
+    end_dag = EmptyOperator(task_id='end_dag')
+
     transform_data = DbtTaskGroup(
         group_id="pokemons_type",
         project_config=ProjectConfig(DBT_PROJECT_PATH),
@@ -51,11 +55,12 @@ def dag_pokemons_types():
         operator_args={
             "vars": '{"start_date": {{ data_interval_start }} }',
             "install_deps": True,
+            "full_refresh": True,
         },
         render_config=RenderConfig(select=["path:models/pokedex/pokemons/types"]),
         default_args={"retries": 2},
     )
 
-    transform_data
+    start_dag >> transform_data >> end_dag
 
 dag_pokemons_types()

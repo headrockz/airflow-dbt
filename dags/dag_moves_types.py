@@ -1,4 +1,5 @@
 from airflow.decorators import dag
+from airflow.operators.empty import EmptyOperator
 from cosmos import DbtTaskGroup, ProjectConfig, ProfileConfig, ExecutionConfig, RenderConfig, LoadMode
 # adjust for other database types
 from cosmos.profiles import PostgresUserPasswordProfileMapping
@@ -42,6 +43,9 @@ default_args = {
     tags=['moves', 'types']
 )
 def dag_moves_types():
+    start_dag = EmptyOperator(task_id='start_dag')
+    end_dag = EmptyOperator(task_id='end_dag')
+
     transform_data = DbtTaskGroup(
         group_id="moves_type",
         project_config=ProjectConfig(DBT_PROJECT_PATH),
@@ -54,6 +58,6 @@ def dag_moves_types():
         render_config=RenderConfig(select=["path:models/pokedex/moves/types"]),
     )
 
-    transform_data
+    start_dag >> transform_data >> end_dag
 
 dag_moves_types()
