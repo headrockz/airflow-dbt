@@ -1,5 +1,6 @@
 from airflow.decorators import dag
 from airflow.operators.empty import EmptyOperator
+from airflow.operators.bash import BashOperator
 from cosmos import DbtTaskGroup, ProjectConfig, ProfileConfig, ExecutionConfig, RenderConfig, LoadMode
 # adjust for other database types
 from cosmos.profiles import PostgresUserPasswordProfileMapping
@@ -13,6 +14,7 @@ DBT_PROJECT_PATH = f"{os.environ['AIRFLOW_HOME']}/dbt"
 # The path where Cosmos will find the dbt executable
 # in the virtual environment created in the Dockerfile
 DBT_EXECUTABLE_PATH = f"/home/airflow/.local/bin/dbt"
+SODA_PROJECT_PATH = f"{os.environ['AIRFLOW_HOME']}/soda/"
 
 
 profile_config = ProfileConfig(
@@ -47,6 +49,11 @@ def dag_pokemons_types():
     start_dag = EmptyOperator(task_id='start_dag')
     end_dag = EmptyOperator(task_id='end_dag')
 
+    soda_check = BashOperator(
+        task_id="check_source",
+        bash_command=f"soda scan -d pokedex -c {SODA_PROJECT_PATH}configuration.yaml {SODA_PROJECT_PATH}check/sources/raw_pokemons.yaml",
+    )
+
     transform_data = DbtTaskGroup(
         group_id="pokemons_type",
         project_config=ProjectConfig(DBT_PROJECT_PATH),
@@ -61,6 +68,6 @@ def dag_pokemons_types():
         default_args={"retries": 2},
     )
 
-    start_dag >> transform_data >> end_dag
+    start_dag >> soda_check >> transform_data >> end_dag
 
 dag_pokemons_types()
