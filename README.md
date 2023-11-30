@@ -4,7 +4,7 @@ O [DBT](https://www.getdbt.com/) é uma ferramenta de transformação de dados o
 
 ## Projeto
 
-Esse projeto é um pipeline end-to-end utilizando Airflow, DBT e Postgres. Fazendo a ingestão de uma base em csv de pokemons e movimentos e criando visões para postgres utilizando o DBT e orquestrando pelo Airflow.
+Esse projeto é um pipeline end-to-end utilizando Airflow, DBT e PostgreSQL. Fazendo a ingestão de uma base em csv de pokemons e movimentos e criando visões para postgres utilizando o DBT e orquestrando pelo Airflow.
 
 ### Estrutura do projeto
 
@@ -36,9 +36,6 @@ Esse projeto é um pipeline end-to-end utilizando Airflow, DBT e Postgres. Fazen
 ```
 
 ## Executando o Projeto
-
-
-### Orquestrando o DBT com o Airflow
 
 Para executar o DBT no mesmo ambiente que o Airflow, estou utilizando o provider da Astronomer chamado [Cosmos](https://docs.astronomer.io/learn/airflow-dbt). Para executar esse projeto, entre na pasta ***dbt_airflow***, digite `docker-compose up -d`, depois entre na interface web do Airflow [http://localhost:8080](http://localhost:8080), o usuário e senha são **airflowdbt**
 
