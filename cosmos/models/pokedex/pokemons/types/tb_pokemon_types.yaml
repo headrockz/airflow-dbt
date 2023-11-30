@@ -2,6 +2,7 @@ version: 2
 
 models:
   - name: tb_pokemon_types
+    tags: ['pokemons']
     columns:
       - name: type
         tests:

@@ -6,5 +6,12 @@ sources:
     schema: public
     tables:
       - name: pokemons
+        enabled: true
+        columns:
+          - name: type_1
+            tests:
+              - accepted_values:
+                  values: ['Bug','Dragon','Electric','Fighting','Fire','Ghost','Grass','Ground','Ice','Normal','Poison','Psychic','Rock','Water']
+              - not_null
       - name: moves
       - name: moves_pokemons
